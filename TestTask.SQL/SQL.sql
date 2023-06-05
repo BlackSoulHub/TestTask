@@ -1,21 +1,18 @@
-/* INIT */
-/* Делал в SQLite, могут быть небольшие отличия от SQLServer'a */
+CREATE TABLE Product(
+                        Id INT NOT NULL PRIMARY KEY,
+                        Name VARCHAR(255) NOT NULL
+);
 
-CREATE TABLE IF NOT EXISTS  Product(
-                                       Id INT NOT NULL PRIMARY KEY,
-                                       Name VARCHAR(255) NOT NULL
-    );
+CREATE TABLE Category(
+                         Id INT NOT NULL PRIMARY KEY,
+                         Name VARCHAR(255) NOT NULL
+);
 
-CREATE TABLE IF NOT EXISTS  Category(
-                                        Id INT NOT NULL PRIMARY KEY,
-                                        Name VARCHAR(255) NOT NULL
-    );
-
-CREATE TABLE IF NOT EXISTS ProductCategory(
-                                              Id INT NOT NULL PRIMARY KEY,
-                                              ProductId INT NOT NULL REFERENCES Product(Id),
-    CategoryId INT NOT NULL REFERENCES Category(Id)
-    );
+CREATE TABLE ProductCategory(
+                                Id INT NOT NULL PRIMARY KEY,
+                                ProductId INT NOT NULL REFERENCES Product(Id),
+                                CategoryId INT NOT NULL REFERENCES Category(Id)
+);
 
 INSERT INTO Product
 VALUES
@@ -37,13 +34,13 @@ VALUES
     (3, 3, 2),
     (4, 3, 1);
 
-SELECT Product.Name, Category.Name
+SELECT Product.Name, Category.Name as CategoryName
 FROM Product
          LEFT JOIN ProductCategory
                    ON Product.Id = ProductCategory.ProductId
          LEFT JOIN Category
                    ON ProductCategory.CategoryId = Category.Id;
 
-DROP TABLE Category;
 DROP TABLE ProductCategory;
+DROP TABLE Category;
 DROP TABLE Product;
