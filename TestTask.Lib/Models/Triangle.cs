@@ -2,7 +2,7 @@ using TestTask.Lib.Abstractions;
 
 namespace TestTask.Lib.Models;
 
-public class Triangle : Figure
+public class Triangle : Figure, ICanBeRectangular
 {
     private readonly double _a;
     private readonly double _b;
@@ -44,16 +44,20 @@ public class Triangle : Figure
 
     public bool IsRectangular()
     {
-        var hypotenuse = Math.Max(_a, Math.Max(_b, _c));
-        
-        // Можно заменить на if
-        var cathets = new List<double>
+        var sides = new List<double>
         {
             _a, _b, _c
         };
-        cathets.Remove(hypotenuse);
 
-        var cathetsSum = Math.Pow(cathets[0], 2) + Math.Pow(cathets[1], 2);
+        var hypotenuse = sides.Max();
+        if (sides.Count(i => Math.Abs(i - hypotenuse) < 0.01) > 1)
+        {
+            throw new NotImplementedException();
+        }
+        
+        sides.Remove(hypotenuse);
+
+        var cathetsSum = sides.Select(i => Math.Pow(i, 2)).Sum();
         var hypotenuseResult = Math.Pow(hypotenuse, 2);
 
         return Math.Abs(hypotenuseResult - cathetsSum) < 0.01;
