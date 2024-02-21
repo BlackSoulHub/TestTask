@@ -52,7 +52,7 @@ public class Triangle : Figure, ICanBeRectangular
         var hypotenuse = sides.Max();
         if (sides.Count(i => Math.Abs(i - hypotenuse) < 0.01) > 1)
         {
-            throw new InvalidOperationException("Треугольник с одинаковыми 2 гипотинузами не может существовать");
+            throw new InvalidOperationException("Треугольник с 2 одинаковыми гипотинузами не может существовать");
         }
         
         sides.Remove(hypotenuse);
